@@ -22,13 +22,18 @@ generate_password() {
     echo "$password"
 }
 
+# Solicitar al usuario la cantidad de contraseñas a generar
+read -p "¿Cuántas contraseñas desea generar? " num_passwords
+
 # Nombres latinos
 latin_names=("Alejandro" "Sofía" "Joaquín" "Lucía" "Mateo" "Valentina" "Diego" "Isabela" "Santiago" "Gabriela")
 
 # Generar y guardar las contraseñas
-for name in "${latin_names[@]}"; do
+for ((i=1; i<=num_passwords; i++)); do
+    random_index=$(( RANDOM % ${#latin_names[@]} ))
+    name="${latin_names[$random_index]}"
     password=$(generate_password 16)
-    filename="${name}_password.txt"
+    filename="${name}_password_$i.txt"
     filepath="$SAVE_DIR/$filename"
     echo "$password" > "$filepath"
     echo "Contraseña generada para $name: $password (guardada en $filepath)"
